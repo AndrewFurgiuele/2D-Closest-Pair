@@ -5,16 +5,51 @@ import java.util.ArrayList;
 public class SortingAlgos {
 
 	// unnamed method
-
-	public static Point[] unNamed(Point[] pts) {
+	/*
+	 This method does run in O(n) time, but it does not always produce the correct answer
+	 */
+	public static Point[] unNamed(Point[] pts){
+		Point[] ptsX = Point.sortByX(pts);
+		Point[] ptsY = Point.sortByY(pts);
+		return unNamed(ptsX, ptsY);
+	}
+	
+	public static Point[] unNamed(Point[] ptsX, Point[] ptsY) {
 		Point[] smallest = new Point[2];
-		smallest[0] = pts[0];
-		smallest[1] = pts[1];
-		for (int i = 0; i < pts.length; i++) {
-
+		smallest[0] = ptsX[0];
+		smallest[1] = ptsX[1];
+	
+		
+		Point[] smallestY = new Point[2];
+		smallestY[0] = ptsY[0];
+		smallestY[1] = ptsY[1];
+		
+		Point[] smallestX = new Point[2];
+		smallestX[0] = ptsX[0];
+		smallestX[1] = ptsX[1];
+		
+		for(int i = 0; i < ptsX.length-1; i++){
+			if(ptsX[i].dist(ptsX[i+1]) < smallestX[0].dist(smallestX[1])){
+				smallestX[0] = ptsX[i];
+				smallestX[1] = ptsX[i+1];
+			}
 		}
-
-		return smallest;
+		
+		for(int i = 0; i < ptsX.length-1; i++){
+			if(ptsY[i].dist(ptsY[i+1]) < smallestY[0].dist(smallestY[1])){
+				smallestY[0] = ptsY[i];
+				smallestY[1] = ptsY[i+1];
+			}
+		}
+		
+		
+		if(smallestY[0].dist(smallestY[1]) <  smallestX[0].dist(smallestX[1]) ){
+			return smallestY;
+		}else{
+			return smallestX;
+		}
+		
+	
 	}
 
 	// brute force
